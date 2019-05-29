@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Cert</title>
+
+<link rel="stylesheet" type="text/css" href="theme.css">
+<link rel="stylesheet" href="fontawesome.min.css">
+<link rel="stylesheet" href="style.css">
+
+<script src="fontawesome-all.js"></script>
+<script src="./web3.min.js"></script>
+<script src="./jquery.js"></script>
+<script src="./sha3.js"></script>
+
+</head>
+
+<body>
+
+	<div class="container-fluid" id="container">
+
+		<!-- Title -->
+		<div class="row justify-content-between text-white title Aligner bg-warning">
+			<div class="col">
+				<div class="headline-top">
+					<i class="fas fa-industry margin-right"></i>School Certificate Registration 
+					<img class="float-right" alt="" src="logoBDr.png">
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Login-Details  -->
+		<div class="row">
+			<div class="col">
+				<span id="firm_details"></span>
+				<table id="t00" class="table table-striped">
+					<tr>
+						<td id="tbl00xA1"></td>
+						<td id="tbl00xB1"></td>
+                        <td id="tbl00xC1">
+                        <!--	
+                        <img id="qrCar" src='https://chart.googleapis.com/chart?cht=qr&chl=0x&chs=120x120&choe=UTF-8&chld=L|2' alt='qr code'>
+                        -->
+                            </td>
+						<td id="tbl00xD1"></td>
+						<td id="tbl00xE1">
+   
+                        </td>
+						<td id="tbl00xF1"></td>
+						<td id="tbl00xG1"></td>
+					</tr>
+					<tr>
+						<td id="tbl00xA2"></td>
+						<td id="tbl00xB2"></td>
+						<td id="tbl00xC2"></td>
+						<td id="tbl00xD2"></td>
+						<td id="tbl00xE2"></td>
+						<td id="tbl00xF2"></td>
+						<td id="tbl00xG2"></td>
+					</tr>
+
+
+				</table>
+			</div>
+		</div>
+
+   		<!-- Publish Cert -->
+        <div class="row content">
+            <div class="col">
+                <div class="col border m-2 p-2">
+                    <h3 class="headline">
+                        <button type="button" onclick="toggleVisibility('transferWrapper')" class="btn btn-primary mx-sm-3">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        Publish Certificate
+                    </h3>
+    
+                    <div class="collapse" id="transferWrapper" style="display: none">
+                        <span id="transferPart"></span>
+
+                        <div class="form-inline">
+                            <div class="form-group">
+                            <br> <br>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="file" id="fileinput"/>
+                                        <input type='button' id='btnLoad' value='Load' onclick='handleFileSelect();'>
+                                        <div id="editor"></div>
+                                    </div>
+                                </div>
+                       
+                                <div class="row">
+                                    <div class="col">
+                                        <button id="publishButton" type="submit" class="btn btn-primary mx-sm-3">Publish</button>
+                                    </div>
+                                </div>
+                                
+   								
+								<div class="row">
+									<div class="col">
+										<span id="published"></span>
+									</div>
+								</div>
+								
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+
+   		<!-- Verify Cert -->
+           <div class="row content">
+            <div class="col">
+                <div class="col border m-2 p-2">
+                    <h3 class="headline">
+                        <button type="button" onclick="toggleVisibility('verifyWrapper')" class="btn btn-primary mx-sm-3">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        Verify Certificate
+                    </h3>
+    
+                    <div class="collapse" id="verifyWrapper" style="display: none">
+                        <span id="verifyCert"></span>
+                        <div class="form-inline">
+                           <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="file" id="fileinput2"/>
+                                        <input type='button' id='btnLoad2' value='Load' onclick='handleFileSelect2();'>
+                                        <div id="editor2"></div>
+                                    </div>
+                                </div>
+    
+
+                            </div>
+                        </div>
+
+                        <div class="form-inline">
+                            <div class="form-group">
+                            <br> <br>
+                           
+                                <div class="row">
+                                    <div class="col">
+                                        <button id="verifyButton" type="submit" class="btn btn-primary mx-sm-3">Verify</button>
+                                    </div>
+								</div>
+								
+								<div class="row">
+                                    <br> <br>
+									<div class="col">
+                                        <br> <br>
+                                        <span id="verified"></span>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col">
+                                        <br> <br>
+										<span id="veri1"></span>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col">
+                                        <br> <br>
+                                        <span id="veri2"></span>
+									</div>
+								</div>
+								
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- certificate list -->
+        <div class="row content">
+            <div class="col">
+                <div class="col border m-2 p-2">
+                    <h3 class="headline">
+                        <button type="button" onclick="toggleVisibility('CertificateWrapper')" class="btn btn-primary mx-sm-3">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        Certificates of my School
+                    </h3>
+    
+                    <div class="collapse" id="CertificateWrapper" style="display: none">
+                        <span id="journalPart"></span>
+                        <table id="journalHeader" border='0' class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-right">No</th>
+                                    <th scope="col">date</th>
+                                    <th scope="col">hash</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="certList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+  		<!-- Register School -->
+          <div class="row content">
+            <div class="col">
+                <div class="col border m-2 p-2">
+                    <h3 class="headline">
+                        <button type="button" onclick="toggleVisibility('regSchoolWrapper')" class="btn btn-primary mx-sm-3">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        Register my School
+                    </h3>
+    
+                    <div class="collapse" id="regSchoolWrapper" style="display: none">
+                        <span id="registerMySchool"></span>
+                        <div class="form-inline">
+                            <i id="regloader" class="fa fa-spinner fa-pulse" style="font-size: 36px;"></i>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="schoolName" class="mr-3">Name of School</label> 
+                                        <input id="schoolName" type="text" class="form-control" placeholder="ABC-School">
+                                    </div>
+                                    <div class="col">
+                                        <label for="schoolCity" class="mr-3">City</label> 
+                                        <input id="schoolCity" type="text" class="form-control" placeholder="City">
+                                    </div>
+                                    <div class="col">
+                                        <label for="schoolStreet" class="mr-3">Street</label> 
+                                        <input id="schoolStreet" type="text" class="form-control" placeholder="Schoolstreet">
+                                    </div>
+                                    <div class="col">
+                                        <label for="schoolType" class="mr-3">Type</label> 
+                                        <input id="schoolType" type="text" class="form-control" placeholder="2 school, 3 university">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-inline">
+                            <div class="form-group">
+                            <br> <br>
+                           
+                                <div class="row">
+                                    <div class="col">
+                                        <button id="registerButton" type="submit" class="btn btn-primary mx-sm-3">Register</button>
+                                    </div>
+								</div>
+								
+								<div class="row">
+									<div class="col">
+										<span id="registered"></span>
+									</div>
+								</div>
+								
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <!-- School list -->
+        <div class="row content">
+            <div class="col">
+                <div class="col border m-2 p-2">
+                    <h3 class="headline">
+                        <button type="button" onclick="toggleVisibility('SchoolListWrapper')" class="btn btn-primary mx-sm-3">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        List of all Schools
+                    </h3>
+    
+                    <div class="collapse" id="SchoolListWrapper" style="display: none">
+                        <span id="schoolList"></span>
+                        <table id="schoolListHeader" border='0' class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-right">No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Street</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Authorized by</th>
+                                </tr>
+                            </thead>
+                            <tbody id="schoolListBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Authorization list -->
+        <div class="row content">
+            <div class="col">
+                <div class="col border m-2 p-2">
+                    <h3 class="headline">
+                        <button type="button" onclick="toggleVisibility('AuthListWrapper')" class="btn btn-primary mx-sm-3">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        List my Authorizations
+                    </h3>
+    
+                    <div class="collapse" id="AuthListWrapper" style="display: none">
+                        <span id="authList"></span>
+                        <table id="authListHeader" border='0' class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-right">No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Street</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Authorized by</th>
+                                </tr>
+                            </thead>
+                            <tbody id="authListBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   		<!-- Authorize School  -->
+           <div class="row content">
+            <div class="col">
+                <div class="col border m-2 p-2">
+                    <h3 class="headline">
+                        <button type="button" onclick="toggleVisibility('authoSchoolWrapper')" class="btn btn-primary mx-sm-3">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        Authorize my School
+                    </h3>
+    
+                    <div class="collapse" id="authoSchoolWrapper" style="display: none">
+                        <span id="authoSchool"></span>
+                        <div class="form-inline">
+                           <div class="form-group">
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="authoAddr" class="mr-4">Authorize a school with this address to sign certifcates </label> 
+                                        <input id="authoAddr" type="text" class="form-control" placeholder="0x0123456789012345678901234567890123456789012345678901234567890123">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-inline">
+                            <div class="form-group">
+                            <br> <br>
+                           
+                                <div class="row">
+                                    <div class="col">
+                                        <button id="authoSchoolButton" type="submit" class="btn btn-primary mx-sm-3">Authorize</button>
+                                    </div>
+								</div>
+								
+								<div class="row">
+                                    <br> <br>
+									<div class="col">
+                                        <br> <br>
+                                        <span id="authorizedSchool"></span>
+									</div>
+								</div>
+																
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+        
+	//collapse buttons//////////////////////////////////
+    function toggleVisibility(id) {
+		var x = document.getElementById(id);
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
+	}  
+        
+
+	//abi definition//////////////////////////////////
+    if (typeof web3 !== 'undefined') {
+        web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:3000"));
+	    }
+
+    web3.eth.defaultAccount = web3.eth.accounts[0];
+       
+       
+    var MyContract = web3.eth.contract( 
+        [
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "name": "eCerthash",
+                        "type": "bytes32"
+                    }
+                ],
+                "name": "CertificateInfo",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "name": "_IssuerAdr",
+                        "type": "address"
+                    }
+                ],
+                "name": "IssuerInfo",
+                "type": "event"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_IssuerAdr",
+                        "type": "address"
+                    }
+                ],
+                "name": "authorizeIssuer",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_hash",
+                        "type": "bytes32"
+                    }
+                ],
+                "name": "publishCert",
+                "outputs": [
+                    {
+                        "name": "_noEntries",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_IssuerName",
+                        "type": "bytes32"
+                    },
+                    {
+                        "name": "_IssuerLocation",
+                        "type": "bytes32"
+                    },
+                    {
+                        "name": "_IssuerStreet",
+                        "type": "bytes32"
+                    },
+                    {
+                        "name": "_IssuerType",
+                        "type": "uint8"
+                    }
+                ],
+                "name": "registerIssuer",
+                "outputs": [
+                    {
+                        "name": "retno",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "_issuer",
+                        "type": "address"
+                    },
+                    {
+                        "name": "_index",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "displayCert",
+                "outputs": [
+                    {
+                        "name": "_hash",
+                        "type": "bytes32"
+                    },
+                    {
+                        "name": "_timestamp",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "_IssuerAdr",
+                        "type": "address"
+                    }
+                ],
+                "name": "displayIssuerbyAddress",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bytes32"
+                    },
+                    {
+                        "name": "",
+                        "type": "bytes32"
+                    },
+                    {
+                        "name": "",
+                        "type": "bytes32"
+                    },
+                    {
+                        "name": "",
+                        "type": "uint8"
+                    },
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "_index",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "displayIssuerByIndex",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bytes32"
+                    },
+                    {
+                        "name": "",
+                        "type": "bytes32"
+                    },
+                    {
+                        "name": "",
+                        "type": "bytes32"
+                    },
+                    {
+                        "name": "",
+                        "type": "uint8"
+                    },
+                    {
+                        "name": "",
+                        "type": "address"
+                    },
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "",
+                        "type": "bytes32"
+                    }
+                ],
+                "name": "hashIndex",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "",
+                        "type": "bytes32"
+                    }
+                ],
+                "name": "hashIssuer",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "issuerAccts",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "_hash",
+                        "type": "bytes32"
+                    }
+                ],
+                "name": "verifyHash",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    },
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    },
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            }
+    ]
+    );
+
+    //var myCerts = MyContract.at('0x8f7a1363d5ca001675907d9577892d83713ddecd');
+    var myCerts = MyContract.at('0x355c67ce33a12b6f30bb71f69c2e49419288558d');
+
+    //end of abi definition//////////////////////////////////
+
+
+    
+//logged in as row /////////////////////////////////////////
+    function showLoggedInAs(){
+        var defaultAccount = web3.eth.defaultAccount;
+        console.log('currentAcc:' + defaultAccount);
+
+        myCerts.displayIssuerbyAddress(defaultAccount, (err, res) => {
+            $("#tbl00xA1").html('<font color="grey">Registered as');   	
+            $("#tbl00xB1").html('<font color="black">' +  web3.toAscii(res[0]));   	
+            $("#tbl00xC1").html('<font color="black">' +  web3.toAscii(res[1]));   	
+            $("#tbl00xD1").html('<font color="black">' +  web3.toAscii(res[2]));  
+            $("#tbl00xE1").html('<font color="grey">authorized by:'); 
+            $("#tbl00xF1").html('<font color="grey">' + res[4]);                   
+            });
+
+        $("#tbl00xA2").html('<font color="grey"> Your school account: ' );   
+        $("#tbl00xB2").html('<font color="grey">' + defaultAccount );   
+        $("#tbl00xE2").html('<font color="grey"> owns: ' );   
+        
+
+        web3.eth.getBalance(defaultAccount, function(error, result){
+                if(!error){
+                var myBala=result/1000000000/1000000/1000;
+                var num= myBala.toFixed(4)
+                console.log('balance'+ JSON.stringify(result))   ;
+                $("#tbl00xF2").html(num  + ' Ether'); 
+                }
+        });
+
+        $("#qrCar").attr("src", "https://chart.googleapis.com/chart?cht=qr&chl=" + defaultAccount + "&chs=130x130&choe=UTF-8&chld=L|");
+        $("#qrCar").show();
+
+
+    
+    } 
+//end do logged in as row /////////////////////////////////////////
+
+// functions for Publish Certificate /////////////////////////////////////////
+    var temphash;
+    var temphash2;
+
+
+
+    $("#publishButton").click(
+        function() {
+            myCerts.publishCert(temphash, (err, res) => {
+                $("#published").html('Your certificate hash '+ $("#pubHash").val() + ' is beeing publsihed and will be occur in below list in a few minutes'); 
+                // $("#publoader").show();      	
+                if (err) 
+                    $("#publoader").hide();
+            });
+        }
+    );
+
+
+
+    function handleFileSelect(){               
+        if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+        alert('The File APIs are not fully supported in this browser.');
+        return;
+        }   
+
+        input = document.getElementById('fileinput');
+        if (!input) {
+            alert("Um, couldn't find the fileinput element.");
+        }
+        else if (!input.files) {
+            alert("This browser doesn't seem to support the `files` property of file inputs.");
+        }
+        else if (!input.files[0]) {
+            alert("Please select a file before clicking 'Load'");               
+        }
+        else if (input.files[1]) {
+            alert("Please select a single file only");    // multiple files to be implemented later           
+        }
+        else {
+            file = input.files[0];
+            fr = new FileReader();
+            fr.readAsText(file);
+            fr.onload = function(event){
+                receivedText(keccak256(fr.result));
+            };
+        }
+    }
+
+    function receivedText(value) {
+        document.getElementById('editor').appendChild(document.createTextNode(file.name));
+        document.getElementById('editor').appendChild(document.createTextNode(" hash:  0x"));
+        document.getElementById('editor').appendChild(document.createTextNode(value));
+        temphash=  '0x' + value;
+        console.log ("calculated hash: ",temphash);
+               
+    }           
+
+
+ 
+
+// functions for verify Certificate /////////////////////////////////////////
+    $("#verifyButton").click(
+        function() {
+            myCerts.verifyHash(temphash2, (err, veriRes) => {
+                $("#loader").hide();
+                console.log ("verifyed by: ", veriRes[0]);
+                console.log ("index: ",       veriRes[1].c[0]);
+                console.log ("date: ",        veriRes[2].c[0]); 
+
+                var veriAddr = veriRes[0]
+                var veriIndex = veriRes[1].c[0];
+                var veriDate  = veriRes[2].c[0];
+                var dateTime = new Date(veriDate*1000); 
+
+                if (veriDate == "0") {
+                    $("#verified").html('Your certificate hash '+ $("#veriHash").val() + ' is unknown!'); 
+                    $("#veri1").html('');
+                    $("#veri2").html('');
+                } else {
+                    $("#verified").html('Your certificate hash is valid and was published by : ');    
+                    $("#veri1").html(' '+ veriAddr + ' at :'  ); 
+                    $("#veri2").html( dateTime.toLocaleDateString() + ' ' + dateTime.toLocaleTimeString());   
+                }
+
+                if (err) 
+                   $("#verified").html('Your certificate hash '+ $("#veriHash").val() + ' is invalid!'); 
+            });
+        }
+    );
+
+    function handleFileSelect2(){               
+        if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+        alert('The File APIs are not fully supported in this browser.');
+        return;
+        }   
+
+        input = document.getElementById('fileinput2');
+        if (!input) {
+            alert("Um, couldn't find the fileinput element.");
+        }
+        else if (!input.files) {
+            alert("This browser doesn't seem to support the `files` property of file inputs.");
+        }
+        else if (!input.files[0]) {
+            alert("Please select a file before clicking 'Load'");               
+        }
+        else if (input.files[1]) {
+            alert("Please select a single file only");    // multiple files to be implemented later           
+        }
+        else {
+            file = input.files[0];
+            fr = new FileReader();
+            fr.readAsText(file);
+            fr.onload = function(event){
+                receivedText2(keccak256(fr.result));
+            };
+        }
+    }
+
+    function receivedText2(value) {
+        document.getElementById('editor2').appendChild(document.createTextNode(file.name));
+        document.getElementById('editor2').appendChild(document.createTextNode(" hash:  0x"));
+        document.getElementById('editor2').appendChild(document.createTextNode(value));
+        temphash2=  '0x' + value;
+        console.log ("calculated verificationhash: ",temphash2);
+               
+    }   
+
+
+// functions for Certificate List /////////////////////////////////////////
+    function renderCertListRow(index, certListEntry) {
+
+        var dateTime = new Date(certListEntry[1]*1000);  
+	    return  '<tr>'
+            +'<td class="text-right">' + index + '</td>'
+            +'<td>' + (dateTime.toLocaleDateString() + ' ' + dateTime.toLocaleTimeString()) 
+            +'<td>' + (certListEntry[0]) 
+            +'</tr>';
+        }
+        
+    function renderCertList(index, certListEntry) {
+            $('#certList').append(renderCertListRow(index, certListEntry));   	
+        }
+        
+    function renderCertListRec(index) {
+        var myAccount = web3.eth.defaultAccount;  
+        myCerts.displayCert(myAccount, index,(err, certListEntry) => {
+ 
+            if (certListEntry [1] != 0) {
+                renderCertList(index, certListEntry);
+                renderCertListRec(index + 1);
+            }
+        });
+    }
+     
+    function displayCertList()  {  
+        renderCertListRec(0);
+    }// End of function certificate list
+     
+// functions for Register School /////////////////////////////////////////
+    $("#registerButton").click(
+        function() {
+            myCerts.registerIssuer($("#schoolName").val(), $("#schoolCity").val(),$("#schoolStreet").val(),$("#schoolType").val(),(err, res) => {
+                $("#registered").html('Your school '+ $("#schoolName").val() + ' is beeing registered and will be occur in below list in a few minutes'); 
+                // $("#regloader").show();      	
+                if (err) 
+                    $("#regloader").hide();
+            });
+        }
+    );
+
+
+// functions for list schools /////////////////////////////////////////
+    function renderSchoolListRow(index, schoolListEntry) {
+        return  '<tr>'
+            +'<td class="text-right">' + index + '</td>'
+            +'<td>' + web3.toAscii(schoolListEntry[0]) 
+            +'<td>' + web3.toAscii(schoolListEntry[1])
+            +'<td>' + web3.toAscii(schoolListEntry[2]) 
+            +'<td>' + (schoolListEntry[3]) 
+            +'<td>' + (schoolListEntry[4])    
+            +'<td>' + (schoolListEntry[5]) 
+            +'</tr>';
+    }
+
+    function renderSchoolList(index, schoolListEntry) {
+        $('#schoolListBody').append(renderSchoolListRow(index, schoolListEntry));   	
+    }
+
+    function renderSchoolListRec(index) {
+        myCerts.displayIssuerByIndex(index,(err, schoolListEntry) => {
+            if (schoolListEntry [3] != 0) {
+                renderSchoolList(index, schoolListEntry);
+                renderSchoolListRec(index + 1);
+            }
+        });
+    }
+
+    function displaySchoolList()  {  
+        renderSchoolListRec(0);
+    }
+// End of functions for list schools
+
+//************************************************************************************************
+//************************************************************************************************
+//************************************************************************************************
+//************************************************************************************************
+//************************************************************************************************
+//************************************************************************************************
+//************************************************************************************************
+//************************************************************************************************
+//************************************************************************************************
+//************************************************************************************************
+
+// functions for list authorization of a school /////////////////////////////////////////
+function renderAuthListRow(index, authListEntry) {
+        return  '<tr>'
+            +'<td class="text-right">' + index + '</td>'
+            +'<td>' + web3.toAscii(authListEntry[0]) 
+            +'<td>' + web3.toAscii(authListEntry[1]) 
+            +'<td>' + web3.toAscii(authListEntry[2]) 
+            +'<td>' + (authListEntry[3]) // type
+            +'<td>' + (authAddr)         // address  
+            +'<td>' + (authListEntry[4]) // authorized by
+            +'</tr>';
+    }
+
+    function renderAuthListRec(index) {
+        if (index == 0) {
+        authAddr =  web3.eth.defaultAccount;  
+        }
+        
+        myCerts.displayIssuerbyAddress(authAddr, (err, authListEntry) => {
+                $('#authListBody').append(renderAuthListRow(index, authListEntry));
+                
+                authAddr = authListEntry[4];
+                index = index +1;
+              
+                //Loop until provider is reached
+                if (authListEntry[3] != 1) {
+                    renderAuthListRec (index); 
+                }
+
+
+        });
+    }
+
+    function displayAuthList()  { 
+         
+        renderAuthListRec(0);
+    }
+// End of functions for list authorizations of a school
+
+
+// functions for Authorize a School  /////////////////////////////////////////
+    $("#authoSchoolButton").click(
+        function() {
+            myCerts.authorizeIssuer($("#authoAddr").val(), (err, authSchoolRes) => {
+                $("#loader").hide();
+                $("#authorizedSchool").html('The school with Address  '
+                    + $("#authoAddr").val() 
+                    + ' is authorized and can sign certificates!'
+                    ); 
+                if (err) 
+                   $("#authorizedSchool").html('The School'+ $("#authoAddr").val() + ' cannot be authorized!'); 
+            });
+        }
+    );
+
+
+// Main loop display Tables  /////////////////////////////////////////   
+$("#loader").hide();
+showLoggedInAs();
+displayCertList();
+$("#regloader").hide();
+//registerMySchool();
+displaySchoolList();
+
+displayAuthList();
+   
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+contructor
+ZVS 0xca3    contructor 
+
+HU 	0x147	registerIssuer 	"HU","Berlin","Linden 16",2
+HU 	0x147	registerIssuer 	"0x4855","0x4265726c696e","0x4c696e64656e203136","2"
+
+ZVS 	0xca3   authorizeIssuer "0x14723a09acff6d2a60dcdf7aa4aff308fddc160c"
+
+HU  0x147   publishCert     "0x2222"
+
+2222000000000000000000000000000000000000000000000000000000000000
+
+7221178b06a99aa3f4607e1002bf17b33680a74caa4d44a64f2e7145a0d659f7
+0123456789012345678901234567890123456789012345678901234567890123
+0         1         2         3         4         5         6         v 1                                                                  
+
+
+
+Metamask installieren 
+Chrome
+lazy ghost annual clarify hobby athlete fruit pluck alarm jeans spirit faculty
+Zeugnis2019
+
+Certs Contract
+0x8f7a1363d5ca001675907d9577892d83713ddecd
+
+Provider 0x939e9Bb92f6f5019e22e15ff626F44D446244cc8
+Schul1   0x226b70D039B0E507360Dd7584B469ac12cD4f161
+
+HU 	0x22	registerIssuer 	"HU","Berlin","Linden 16",2
+HU 	0x22	registerIssuer 	"0x4855","0x4265726c696e","0x4c696e64656e203136","2"
+
+ZVS 	0x93    authorizeIssuer "0x226b70D039B0E507360Dd7584B469ac12cD4f161"
+HU 	0x22	displayCert	"0x226b70D039B0E507360Dd7584B469ac12cD4f161","0"
+

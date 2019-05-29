@@ -1,0 +1,57 @@
+#container {
+	font-family: sans-serif;
+}
+
+.title {
+	height: 70px;
+}
+
+.headline-top {
+	font-size: 2rem;
+	font-weight: 300;
+	line-height: 1.2;
+}
+
+.headline {
+	border-bottom: 100px;
+}
+
+.content {
+	margin-top: 25px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+.margin-right {
+	margin-right: 10px;
+}
+
+.margin-top {
+	margin-top: 10px;
+}
+
+.Aligner {
+	align-items: center;
+	*/
+}
+
+.bg-blue {
+	background-color: #0045b9;
+}
+
+.bg-red {
+	background-color: rgb(149, 10, 220);
+}
+
+.bg-green {
+	background-color: #005977;
+}
+
+.tc-green {
+	color: green;
+}
+
+
+.tc-red {
+	color: red;
+}

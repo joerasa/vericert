@@ -1,0 +1,14 @@
+# Logs
+parameter.txt
+
+
+# Directory 
+node_modules/
+Archiv/
+Testzeugnisse/
+
+
+
+# Output of 'npm pack'
+*.tgz
+
