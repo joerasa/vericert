@@ -15,6 +15,9 @@
     <script src="./js/jquery.js"></script>
     <script src="./js/sha3.js"></script>
     <script src="./js/abiCert.js"></script>
+
+    <script src="./js/abitemplate1.js"></script>
+    <script src="./js/jspdf.min.js"></script>
     
 </head>
 
@@ -113,6 +116,74 @@
             </div>
         </div>
      
+        <!-- Create Pdf -->
+        <div class="row content">
+        <div class="col">
+            <div class="col border m-2 p-2">
+                <h3 class="headline">
+                    <button type="button" onclick="toggleVisibility('createPdfWrapper')" class="btn btn-primary mx-sm-3">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    Create Pdf Certificate
+                </h3>
+
+                <div class="collapse" id="createPdfWrapper" style="display: none">
+                    <span id="createPdf"></span>
+                    <div class="form-inline">
+                        <i id="pdfLoader" class="fa fa-spinner fa-pulse" style="font-size: 36px;"></i>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="givenName" class="mr-3">given names</label> 
+                                    <input id="givenName" type="text" class="form-control" placeholder="all given names">
+                                </div>
+                                <div class="col">
+                                    <label for="lastName" class="mr-3">last name</label> 
+                                    <input id="lastName" type="text" class="form-control" placeholder="last name">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="German" class="mr-3">German</label> 
+                                    <input id="German" type="text" class="form-control" placeholder="1...5">
+                                </div>
+                                <div class="col">
+                                    <label for="English" class="mr-3">English</label> 
+                                    <input id="English" type="text" class="form-control" placeholder="1...5">
+                                </div>
+                                <div class="col">
+                                    <label for="Maths" class="mr-3">Maths</label> 
+                                    <input id="Maths" type="text" class="form-control" placeholder="1...5">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                        <br> <br>
+                        
+                            <div class="row">
+                                <div class="col">
+                                    <button id="createPdfButton" type="submit" class="btn btn-primary mx-sm-3">Create and Publish Certificate</button>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col">
+                                    <span id="pdfCreated"></span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>  
+
 
    		<!-- Verify Cert -->
            <div class="row content">
@@ -427,6 +498,8 @@
     //end of abi definition//////////////////////////////////
 
 
+
+
     
 //logged in as row /////////////////////////////////////////
     function showLoggedInAs(){
@@ -463,6 +536,10 @@
     
     } 
 //end do logged in as row /////////////////////////////////////////
+
+
+
+
 
 // functions for Publish Certificate /////////////////////////////////////////
     var temphash;
@@ -520,6 +597,44 @@
         console.log ("calculated hash: ",temphash);
                
     }           
+
+// functions for create pdf certificate /////////////////////////////////////////
+$("#createPdfButton").click(
+        function() {
+            var doc = new jsPDF();
+
+            doc.addImage(imgData, 0,0,210,297); //image top left in size A4 
+
+            var given = $('#givenName').val();
+            var last = $('#lastName').val();
+            var German = $('#German').val();
+            var English = $('#English').val();
+            var Maths = $('#Maths').val();
+ 
+
+            doc.text(70, 121, given);
+            doc.text(130, 121, last);
+
+            doc.text(160, 157, German);
+            doc.text(160, 167, English);
+            doc.text(160, 177, Maths);
+
+
+            doc.text(70, 196, given);
+            doc.text(130, 196, last);
+
+            var today = new Date();
+            var todaystr = today.getDate() + '.'+today.getMonth()+'.'+today.getFullYear();
+            
+            doc.text(105, 219, todaystr);
+
+            var filename = 'Zeugnis_'+today.getFullYear()+'_'+ given +'_'+last+'.pdf';
+
+            doc.save(filename);
+            
+
+        }
+    );
 
 
  
@@ -667,16 +782,6 @@
     }
 // End of functions for list schools
 
-//************************************************************************************************
-//************************************************************************************************
-//************************************************************************************************
-//************************************************************************************************
-//************************************************************************************************
-//************************************************************************************************
-//************************************************************************************************
-//************************************************************************************************
-//************************************************************************************************
-//************************************************************************************************
 
 // functions for list authorization of a school /////////////////////////////////////////
 function renderAuthListRow(index, authListEntry) {
@@ -734,14 +839,17 @@ function renderAuthListRow(index, authListEntry) {
     );
 
 
-// Main loop display Tables  /////////////////////////////////////////   
-$("#loader").hide();
+
+// stop all loaders             /////////////////////////////////////////  
+$("#publoader").hide(); 
+$("#pdfLoader").hide(); 
+$("#regloader").hide(); 
+
+// Main loop fo populate lists  /////////////////////////////////////////   
 showLoggedInAs();
 displayCertList();
-$("#regloader").hide();
 //registerMySchool();
 displaySchoolList();
-
 displayAuthList();
    
 </script>
