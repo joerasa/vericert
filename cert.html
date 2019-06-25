@@ -143,20 +143,28 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col">
-                                    <label for="German" class="mr-3">German</label> 
-                                    <input id="German" type="text" class="form-control" placeholder="1...5">
+                            
+
+                            <div class="form-inline">
+                            <div class="form-group">
+                                <h4 class="headline mt-4">Reached results</h4>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="German" class="mr-3">German</label> 
+                                        <input id="German" type="text" class="form-control" placeholder="1...5">
+                                    </div>
+                                    <div class="col">
+                                        <label for="English" class="mr-3">English</label> 
+                                        <input id="English" type="text" class="form-control" placeholder="1...5">
+                                    </div>
+                                    <div class="col">
+                                        <label for="Maths" class="mr-3">Maths</label> 
+                                        <input id="Maths" type="text" class="form-control" placeholder="1...5">
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <label for="English" class="mr-3">English</label> 
-                                    <input id="English" type="text" class="form-control" placeholder="1...5">
-                                </div>
-                                <div class="col">
-                                    <label for="Maths" class="mr-3">Maths</label> 
-                                    <input id="Maths" type="text" class="form-control" placeholder="1...5">
-                                </div>
-                            </div>
+                            </div></div>
+
                         </div>
                     </div>
 
@@ -601,36 +609,55 @@
 // functions for create pdf certificate /////////////////////////////////////////
 $("#createPdfButton").click(
         function() {
-            var doc = new jsPDF();
-
-            doc.addImage(imgData, 0,0,210,297); //image top left in size A4 
-
-            var given = $('#givenName').val();
-            var last = $('#lastName').val();
-            var German = $('#German').val();
-            var English = $('#English').val();
-            var Maths = $('#Maths').val();
- 
-
-            doc.text(70, 121, given);
-            doc.text(130, 121, last);
-
-            doc.text(160, 157, German);
-            doc.text(160, 167, English);
-            doc.text(160, 177, Maths);
-
-
-            doc.text(70, 196, given);
-            doc.text(130, 196, last);
-
-            var today = new Date();
-            var todaystr = today.getDate() + '.'+today.getMonth()+'.'+today.getFullYear();
             
-            doc.text(105, 219, todaystr);
+            var defaultAccount = web3.eth.defaultAccount;
+            
+            myCerts.displayIssuerbyAddress(defaultAccount, (err, res) => {
+                var schoolName = web3.toAscii(res[0]);  
+                var schoolCity = web3.toAscii(res[1]);  
+                var schoolStreet = web3.toAscii(res[2]);  
+                
+               
+                var doc = new jsPDF();
 
-            var filename = 'Zeugnis_'+today.getFullYear()+'_'+ given +'_'+last+'.pdf';
+                doc.addImage(imgData, 0,0,210,297); //image top left in size A4 
 
-            doc.save(filename);
+                var given = $('#givenName').val();
+                var last = $('#lastName').val();
+                var German = $('#German').val();
+                var English = $('#English').val();
+                var Maths = $('#Maths').val();
+
+                doc.text(20, 65, schoolName);	
+                doc.text(140, 60, schoolCity);	
+                doc.text(140, 65, schoolStreet);	
+
+                doc.text(70, 121, given);
+                doc.text(130, 121, last);
+
+                doc.text(160, 157, German);
+                doc.text(160, 167, English);
+                doc.text(160, 177, Maths);
+
+
+                doc.text(70, 196, given);
+                doc.text(130, 196, last);
+
+                var today = new Date();
+                var todaystr = today.getDate() + '.'+(today.getMonth()+1)+'.'+today.getFullYear();
+
+                doc.text(105, 219, todaystr);
+
+                var filename = 'Zeugnis_'+today.getFullYear()+'_'+ given +'_'+last+'.pdf';
+
+                doc.save(filename);
+
+
+
+
+            });
+
+            
             
 
         }
