@@ -648,18 +648,118 @@ $("#createPdfButton").click(
 
                 doc.text(105, 219, todaystr);
 
-                var filename = 'Zeugnis_'+today.getFullYear()+'_'+ given +'_'+last+'.pdf';
+                var filename = 'Zeugnis_'+today.getFullYear()+'_'+ given +'_'+ last;
 
-                doc.save(filename);
+                doc.save(filename + '.pdf');
                
 
                 var string = doc.output('datauristring');
                 
+                
+                console.log('string komplett: ', string);
                 // remove 51 byte prefix       data:application/pdf;filename=generated.pdf;base64,
                 string = string.substring(51);
+                console.log('string -prefix: ', string);
                 var filedecoded = atob(string);
+                console.log('b64 decoded: ', filedecoded);
+                
                 var temphash3 = keccak256(filedecoded);
-                console.log('hash: ', temphash3);
+                console.log('hash3: ', temphash3);
+
+
+
+                /////////////////////////////////////////////////////////////////////////////////
+                // xml file generation for EMREX in Elmo Format /////////////////////////////////
+                var elmoDoc = document.implementation.createDocument("", "", null);
+                
+                //var xmlhead  = parser.parseFromString('<?xml version="1.0" encoding="utf-8"?>', "application/xml");
+                
+                var elmoElem = elmoDoc.createElement("elmo");
+                elmoDoc.appendChild(elmoElem);
+
+                var learnerElem = elmoDoc.createElement("learner");
+                    learnerElem.setAttribute("givenName", given);
+                    learnerElem.setAttribute("lastName", last);
+                elmoElem.appendChild(learnerElem);
+
+                var reportElem = elmoDoc.createElement("report");
+                    
+                    var issuerElem = elmoDoc.createElement("issuer");
+
+                        var countryElem = elmoDoc.createElement("county");
+                            countryElem.innerHTML = "de";
+                        issuerElem.appendChild(countryElem);
+
+                        var idElem = elmoDoc.createElement("identifier");
+                            idElem.setAttribute("type", 'Gym');
+                            idElem.innerHTML = "2399GT"; // id number of school
+                        issuerElem.appendChild(idElem);
+
+                        var titleElem = elmoDoc.createElement("title");
+                            titleElem.setAttribute("xml:lang", 'de');
+                            //titleElem.innerHTML = schoolName; // error invalid xml
+                            titleElem.setAttribute("name", schoolName);
+                        issuerElem.appendChild(titleElem);
+
+                        var urlElem = elmoDoc.createElement("url");
+                            urlElem.innerHTML = 'https://www.hhgym.de/';
+                        issuerElem.appendChild(urlElem);
+                        
+                    reportElem.appendChild(issuerElem);   
+
+                    var losElem = elmoDoc.createElement("learningOpportunitySpecification");
+
+                        var titleLosElem = elmoDoc.createElement("title");
+                            titleLosElem.setAttribute("xml:lang", 'de');
+                            titleLosElem.innerHTML = "Abitur";
+                        losElem.appendChild(titleLosElem);
+
+                        var typeLosElem = elmoDoc.createElement("type");
+                            typeLosElem.setAttribute("xml:lang", 'en');
+                            typeLosElem.innerHTML = "Degree Program";
+                        losElem.appendChild(typeLosElem);
+
+                        var descripLosElem = elmoDoc.createElement("description");
+                            descripLosElem.setAttribute("xml:lang", 'de');
+                            descripLosElem.innerHTML = "Zeugnis der allgemeinen Hochschulreife";
+                        losElem.appendChild(descripLosElem);
+
+                    reportElem.appendChild(losElem);   
+
+                    var dateElem = elmoDoc.createElement("issueDate");
+                        dateElem.innerHTML = today;
+                    reportElem.appendChild(dateElem);   
+
+                elmoElem.appendChild(reportElem);
+
+
+
+                var attachElem = elmoDoc.createElement("attachment");
+                elmoElem.appendChild(attachElem);
+
+                var sigElem = elmoDoc.createElement("signature");
+                elmoElem.appendChild(sigElem);
+
+
+                console.log('elmoDoc: ', elmoDoc);
+
+                var serializer = new XMLSerializer();
+                var xmlString = serializer.serializeToString(elmoDoc);
+                console.log('xmlString: ',xmlString);
+
+              
+
+                // xmlString.save(filename + '.xml');
+
+                
+
+
+
+ 
+
+
+
+
 
             });
 
