@@ -474,6 +474,7 @@
 
 
 <script type="text/javascript">
+
         
 	//collapse buttons//////////////////////////////////
     function toggleVisibility(id) {
@@ -666,8 +667,6 @@ $("#createPdfButton").click(
                 var temphash3 = keccak256(filedecoded);
                 console.log('hash3: ', temphash3);
 
-
-
                 /////////////////////////////////////////////////////////////////////////////////
                 // xml file generation for EMREX in Elmo Format /////////////////////////////////
                 var elmoDoc = document.implementation.createDocument("", "", null);
@@ -724,6 +723,99 @@ $("#createPdfButton").click(
                             descripLosElem.innerHTML = "Zeugnis der allgemeinen Hochschulreife";
                         losElem.appendChild(descripLosElem);
 
+                        // start 1. Subject
+                        var hasPart1Elem = elmoDoc.createElement("hasPart");
+                            var los1Elem = elmoDoc.createElement("learningOpportunitySpecification");
+
+                                var titleLos1Elem = elmoDoc.createElement("title");
+                                    titleLos1Elem.setAttribute("xml:lang", 'en');
+                                    titleLos1Elem.innerHTML = "German";
+                                los1Elem.appendChild(titleLos1Elem);
+
+                                var typeLos1Elem = elmoDoc.createElement("type");
+                                    typeLos1Elem.setAttribute("xml:lang", 'en');
+                                    typeLos1Elem.innerHTML = "Course";
+                                los1Elem.appendChild(typeLos1Elem); 
+
+                                var specifiesLos1Elem = elmoDoc.createElement("specifies");
+
+                                    var loi1Elem = elmoDoc.createElement("learningOpportunityInstance");
+
+                                            result1Elem = elmoDoc.createElement("resultLabel");
+                                                result1Elem.innerHTML = German;
+                                            loi1Elem.appendChild(result1Elem);
+
+                                    specifiesLos1Elem.appendChild(loi1Elem);
+
+                                los1Elem.appendChild(specifiesLos1Elem); 
+
+                            hasPart1Elem.appendChild(los1Elem);  
+
+                        losElem.appendChild(hasPart1Elem);
+                        // end 1. Subject
+
+                        // start 2. Subject
+                        var hasPart2Elem = elmoDoc.createElement("hasPart");
+                            var los2Elem = elmoDoc.createElement("learningOpportunitySpecification");
+
+                                var titleLos2Elem = elmoDoc.createElement("title");
+                                    titleLos2Elem.setAttribute("xml:lang", 'en');
+                                    titleLos2Elem.innerHTML = "English";
+                                los2Elem.appendChild(titleLos2Elem);
+
+                                var typeLos2Elem = elmoDoc.createElement("type");
+                                    typeLos2Elem.setAttribute("xml:lang", 'en');
+                                    typeLos2Elem.innerHTML = "Course";
+                                los2Elem.appendChild(typeLos2Elem); 
+
+                                var specifiesLos2Elem = elmoDoc.createElement("specifies");
+
+                                    var loi2Elem = elmoDoc.createElement("learningOpportunityInstance");
+
+                                            result2Elem = elmoDoc.createElement("resultLabel");
+                                                result2Elem.innerHTML = English;
+                                            loi2Elem.appendChild(result2Elem);
+
+                                    specifiesLos2Elem.appendChild(loi2Elem);
+
+                                los2Elem.appendChild(specifiesLos2Elem); 
+
+                            hasPart2Elem.appendChild(los2Elem);  
+
+                        losElem.appendChild(hasPart2Elem);
+                        // end 2. Subject
+
+                        // start 3. Subject
+                        var hasPart3Elem = elmoDoc.createElement("hasPart");
+                            var los3Elem = elmoDoc.createElement("learningOpportunitySpecification");
+
+                                var titleLos3Elem = elmoDoc.createElement("title");
+                                    titleLos3Elem.setAttribute("xml:lang", 'en');
+                                    titleLos3Elem.innerHTML = "Mathematics";
+                                los3Elem.appendChild(titleLos3Elem);
+
+                                var typeLos3Elem = elmoDoc.createElement("type");
+                                    typeLos3Elem.setAttribute("xml:lang", 'en');
+                                    typeLos3Elem.innerHTML = "Course";
+                                los3Elem.appendChild(typeLos3Elem); 
+
+                                var specifiesLos3Elem = elmoDoc.createElement("specifies");
+
+                                    var loi3Elem = elmoDoc.createElement("learningOpportunityInstance");
+
+                                            result3Elem = elmoDoc.createElement("resultLabel");
+                                                result3Elem.innerHTML = Maths;
+                                            loi3Elem.appendChild(result3Elem);
+
+                                    specifiesLos3Elem.appendChild(loi3Elem);
+
+                                los3Elem.appendChild(specifiesLos3Elem); 
+
+                            hasPart3Elem.appendChild(los3Elem);  
+
+                        losElem.appendChild(hasPart3Elem);
+                        // end 3. Subject
+
                     reportElem.appendChild(losElem);   
 
                     var dateElem = elmoDoc.createElement("issueDate");
@@ -747,19 +839,35 @@ $("#createPdfButton").click(
                 var xmlString = serializer.serializeToString(elmoDoc);
                 console.log('xmlString: ',xmlString);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                /*
+                //import{saveAs} from 'file-saver';
+                var FileSaver = require('file-saver');
+                var blob = new Blob(["Hello, world!"], {type: "text/plain;charset=utf-8"});
+               
+                
+                FileSaver.saveAs(blob, "hello world.txt");
+                
+                //saveAs(xmlString);
+
               
 
                 // xmlString.save(filename + '.xml');
 
-                
-
-
-
- 
-
-
-
-
+                */
 
             });
 
@@ -769,7 +877,19 @@ $("#createPdfButton").click(
         }
     );
 
-
+    function stringToAscii(s)
+    {
+        var ascii="";
+        if(s.length>0)
+        for(i=0; i<s.length; i++)
+            {
+            var c = ""+s.charCodeAt(i);
+            while(c.length < 3)
+            c = "0"+c;
+            ascii += c;
+        }
+        return(ascii);
+    }
  
 
 // functions for verify Certificate /////////////////////////////////////////
