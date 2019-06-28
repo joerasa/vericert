@@ -487,6 +487,16 @@
 		}
 	}  
         
+    //String manipulation to remove fill character /00 
+    function removeSpecials(str) {
+        var res = '';
+        for (var x = 0; x < str.length; x++) {
+            if (str.charCodeAt(x) >= 1 ) {
+                res += str.charAt(x);
+            }
+        }
+        return res;
+    }
 
 	//abi definition//////////////////////////////////
     if (typeof web3 !== 'undefined') {
@@ -605,7 +615,9 @@
         temphash=  '0x' + value;
         console.log ("calculated hash: ",temphash);
                
-    }           
+    }         
+
+
 
 // functions for create pdf certificate /////////////////////////////////////////
 $("#createPdfButton").click(
@@ -614,10 +626,12 @@ $("#createPdfButton").click(
             var defaultAccount = web3.eth.defaultAccount;
             
             myCerts.displayIssuerbyAddress(defaultAccount, (err, res) => {
-                var schoolName = web3.toAscii(res[0]);  
-                var schoolCity = web3.toAscii(res[1]);  
+                var schoolName = web3.toAscii(res[0]); 
+                schoolName = removeSpecials(schoolName);
+                var schoolCity = web3.toAscii(res[1]);
+                schoolCity = removeSpecials(schoolCity);  
                 var schoolStreet = web3.toAscii(res[2]);  
-                
+                schoolStreet = removeSpecials(schoolStreet);
                
                 var doc = new jsPDF();
 
