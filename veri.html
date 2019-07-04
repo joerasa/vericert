@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Veri</title>
+
+    <link rel="stylesheet" type="text/css" href="./css/theme.css">
+    <link rel="stylesheet" href="./css/fontawesome.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+
+    <script src="./js/fontawesome-all.js"></script>
+    <script src="./js/web3.min.js"></script>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/sha3.js"></script>
+    <script src="./js/FileSaver.js"></script>
+ 
+    <script src="./js/abiCert.js"></script>
+    <script src="./js/abitemplate1.js"></script>
+    <script src="./js/jspdf.min.js"></script>
+    
+</head>
+
+<body>
+	<div class="container-fluid" id="container">
+
+		<!-- Title -->
+		<div class="row justify-content-between text-white title Aligner bg-green">
+			<div class="col">
+				<div class="headline-top">
+					<i class="fas fa-shopping-cart margin-right"></i> Certificate Verification 
+					<img class="float-right" alt="" src="logoBDr.png">
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Login-Details  -->
+		<div class="row">
+			<div class="col">
+				<span id="firm_details"></span>
+				<table id="t00" class="table table-striped">
+					<tr>
+						<td id="tbl00xA1"></td>
+						<td id="tbl00xB1"></td>
+                        <td id="tbl00xC1">
+                        	
+                            </td>
+						<td id="tbl00xD1"></td>
+						<td id="tbl00xE1">
+   
+                        </td>
+						<td id="tbl00xF1"></td>
+						<td id="tbl00xG1"></td>
+					</tr>
+					<tr>
+						<td id="tbl00xA2"></td>
+						<td id="tbl00xB2"></td>
+						<td id="tbl00xC2"></td>
+						<td id="tbl00xD2"></td>
+						<td id="tbl00xE2"></td>
+						<td id="tbl00xF2"></td>
+						<td id="tbl00xG2"></td>
+					</tr>
+
+
+				</table>
+			</div>
+		</div>
+
+   		<!-- Publish Cert -->
+  
+        <!-- Create Pdf -->
+
+
+
+   		<!-- Verify Cert -->
+           <div class="row content">
+            <div class="col">
+                <div class="col border m-2 p-2">
+                    <h3 class="headline">
+                        <button type="button" onclick="toggleVisibility('verifyWrapper')" class="btn btn-primary mx-sm-3">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        Verify Certificate
+                    </h3>
+    
+                    <div class="collapse" id="verifyWrapper" style="display: none">
+                        <span id="verifyCert"></span>
+                        <div class="form-inline">
+                           <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="file" id="fileinput2"/>
+                                        <input type='button' id='btnLoad2' value='Load' onclick='handleFileSelect2();'>
+                                        <div id="editor2"></div>
+                                    </div>
+                                </div>
+    
+
+                            </div>
+                        </div>
+
+                        <div class="form-inline">
+                            <div class="form-group">
+                            <br> <br>
+                           
+                                <div class="row">
+                                    <div class="col">
+                                        <button id="verifyButton" type="submit" class="btn btn-primary mx-sm-3">Verify</button>
+                                    </div>
+								</div>
+								
+								<div class="col">
+                                   	<span id="verified"></span>
+								</div>
+								
+								<div class="col">
+								    <span id="veri1"></span>
+								</div>
+								
+								<div class="col">
+                                    <span id="veri2"></span>
+                                </div>
+                                
+                                <div class="col">
+                                    <span id="veri3"></span>
+                                    <img id="hook" src='hook3.png'>
+								</div>
+								
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- certificate list -->
+    
+  		<!-- Register School -->
+ 
+        <!-- School list -->
+     
+
+        <!-- Authorization list -->
+        <div class="row content">
+            <div class="col">
+                <div class="col border m-2 p-2">
+                    <h3 class="headline">
+                        <button type="button" onclick="toggleVisibility('AuthListWrapper')" class="btn btn-primary mx-sm-3">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        List my Authorizations
+                    </h3>
+    
+                    <div class="collapse" id="AuthListWrapper" style="display: none">
+                        <span id="authList"></span>
+                        <table id="authListHeader" border='0' class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-right">No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Street</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Authorized by</th>
+                                </tr>
+                            </thead>
+                            <tbody id="authListBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ 
+        
+        
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+     
+	//collapse buttons//////////////////////////////////
+    function toggleVisibility(id) {
+		var x = document.getElementById(id);
+		if (x.style.display === "none") {
+			x.style.display = "block";
+		} else {
+			x.style.display = "none";
+		}
+	}  
+        
+    //String manipulation to remove fill character /00 
+    function removeSpecials(str) {
+        var res = '';
+        for (var x = 0; x < str.length; x++) {
+            if (str.charCodeAt(x) >= 1 ) {
+                res += str.charAt(x);
+            }
+        }
+        return res;
+    }
+
+	//abi definition//////////////////////////////////
+    if (typeof web3 !== 'undefined') {
+        web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:3000"));
+	    }
+
+    web3.eth.defaultAccount = web3.eth.accounts[0];
+       
+       
+
+
+    //var myCerts = MyContract.at('0x8f7a1363d5ca001675907d9577892d83713ddecd');
+    var myCerts = MyContract.at('0x355c67ce33a12b6f30bb71f69c2e49419288558d');
+
+    //end of abi definition//////////////////////////////////
+
+
+
+
+    
+//logged in as row /////////////////////////////////////////
+    function showLoggedInAs(){
+        var defaultAccount = web3.eth.defaultAccount;
+        console.log('currentAcc:' + defaultAccount);
+
+        $("#tbl00xA1").html('<font color="grey">account:');   	
+        $("#tbl00xB1").html('<font color="grey">' + defaultAccount ); 
+
+       
+
+
+
+    
+    } 
+//end do logged in as row /////////////////////////////////////////
+
+
+
+
+
+// functions for Publish Certificate /////////////////////////////////////////
+    var temphash;
+    var temphash2;
+
+
+
+    $("#publishButton").click(
+        function() {
+            myCerts.publishCert(temphash, (err, res) => {
+                $("#published").html('Your certificate hash '+ $("#pubHash").val() + ' is beeing publsihed and will be occur in below list in a few minutes'); 
+                // $("#publoader").show();      	
+                if (err) 
+                    $("#publoader").hide();
+            });
+        }
+    );
+
+
+
+    function handleFileSelect(){               
+        if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+        alert('The File APIs are not fully supported in this browser.');
+        return;
+        }   
+
+        input = document.getElementById('fileinput');
+        if (!input) {
+            alert("Um, couldn't find the fileinput element.");
+        }
+        else if (!input.files) {
+            alert("This browser doesn't seem to support the `files` property of file inputs.");
+        }
+        else if (!input.files[0]) {
+            alert("Please select a file before clicking 'Load'");               
+        }
+        else if (input.files[1]) {
+            alert("Please select a single file only");    // multiple files to be implemented later           
+        }
+        else {
+            file = input.files[0];
+            fr = new FileReader();
+            fr.readAsText(file);
+            fr.onload = function(event){
+                receivedText(keccak256(fr.result));
+            };
+        }
+    }
+
+    function receivedText(value) {
+        document.getElementById('editor').appendChild(document.createTextNode(file.name));
+        document.getElementById('editor').appendChild(document.createTextNode(" hash:  0x"));
+        document.getElementById('editor').appendChild(document.createTextNode(value));
+        temphash=  '0x' + value;
+        console.log ("calculated hash: ",temphash);
+               
+    }         
+
+
+
+// functions for create pdf certificate /////////////////////////////////////////
+$("#createPdfButton").click(
+        function() {
+            
+            var defaultAccount = web3.eth.defaultAccount;
+            
+            myCerts.displayIssuerbyAddress(defaultAccount, (err, res) => {
+                var schoolName = web3.toAscii(res[0]); 
+                schoolName = removeSpecials(schoolName);
+                var schoolCity = web3.toAscii(res[1]);
+                schoolCity = removeSpecials(schoolCity);  
+                var schoolStreet = web3.toAscii(res[2]);  
+                schoolStreet = removeSpecials(schoolStreet);
+               
+                var doc = new jsPDF();
+
+                doc.addImage(imgData, 0,0,210,297); //image top left in size A4 
+
+                var given = $('#givenName').val();
+                var last = $('#lastName').val();
+                var German = $('#German').val();
+                var English = $('#English').val();
+                var Maths = $('#Maths').val();
+
+                doc.text(20, 65, schoolName);	
+                doc.text(140, 60, schoolCity);	
+                doc.text(140, 65, schoolStreet);	
+
+                doc.text(70, 121, given);
+                doc.text(130, 121, last);
+
+                doc.text(160, 157, German);
+                doc.text(160, 167, English);
+                doc.text(160, 177, Maths);
+
+
+                doc.text(70, 196, given);
+                doc.text(130, 196, last);
+
+                var today = new Date();
+
+                var todaystr = today.getDate() + '.'+(today.getMonth()+1)+'.'+today.getFullYear();
+
+                doc.text(105, 219, todaystr);
+
+                var filename = 'Zeugnis_'+today.getFullYear()+'_'+ given +'_'+ last;
+
+                /*
+                // hash of pdf document
+                var _saveAs = saveAs; 
+                
+                saveAs = function saveAsOverridden (blob, name, opts) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        console.log("savefilename: " + name + " hash " + keccak256(reader.result));
+                        _saveAs(blob, name, opts);
+
+                        //saveAs = _saveAs;
+                    }
+                    reader.readAsText(blob);
+                }
+                
+                */    
+
+
+
+                doc.save(filename + '.pdf');
+
+                 
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                /////////////////////////////////////////////////////////////////////////////////
+                // xml file generation for EMREX in Elmo Format /////////////////////////////////
+                var elmoDoc = document.implementation.createDocument("", "", null);
+                
+                //var xmlhead  = parser.parseFromString('<?xml version="1.0" encoding="utf-8"?>', "application/xml");
+                
+                var elmoElem = elmoDoc.createElement("elmo");
+                    elmoElem.setAttribute( "xmlns","https://github.com/emrex-eu/elmo-schemas/tree/v1");
+                    elmoElem.setAttribute( "xmlns:ns2","http://www.w3.org/2000/09/xmldsig#");
+                elmoDoc.appendChild(elmoElem);
+
+                var learnerElem = elmoDoc.createElement("learner");
+                    learnerElem.setAttribute("givenName", given);
+                    learnerElem.setAttribute("lastName", last);
+                elmoElem.appendChild(learnerElem);
+
+                var reportElem = elmoDoc.createElement("report");
+                    
+                    var issuerElem = elmoDoc.createElement("issuer");
+
+                        var countryElem = elmoDoc.createElement("county");
+                            countryElem.innerHTML = "de";
+                        issuerElem.appendChild(countryElem);
+
+                        var idElem = elmoDoc.createElement("identifier");
+                            idElem.setAttribute("type", 'Gym');
+                            idElem.innerHTML = "2399GT"; // id number of school
+                        issuerElem.appendChild(idElem);
+
+                        var titleElem = elmoDoc.createElement("title");
+                            titleElem.setAttribute("xml:lang", 'de');
+                            //titleElem.innerHTML = schoolName; // error invalid xml
+                            titleElem.setAttribute("name", schoolName);
+                        issuerElem.appendChild(titleElem);
+
+                        var urlElem = elmoDoc.createElement("url");
+                            urlElem.innerHTML = 'https://www.hhgym.de/';
+                        issuerElem.appendChild(urlElem);
+                        
+                    reportElem.appendChild(issuerElem);   
+
+                    var losElem = elmoDoc.createElement("learningOpportunitySpecification");
+
+                        var titleLosElem = elmoDoc.createElement("title");
+                            titleLosElem.setAttribute("xml:lang", 'de');
+                            titleLosElem.innerHTML = "Abitur";
+                        losElem.appendChild(titleLosElem);
+
+                        var typeLosElem = elmoDoc.createElement("type");
+                            typeLosElem.setAttribute("xml:lang", 'en');
+                            typeLosElem.innerHTML = "Degree Program";
+                        losElem.appendChild(typeLosElem);
+
+                        var descripLosElem = elmoDoc.createElement("description");
+                            descripLosElem.setAttribute("xml:lang", 'de');
+                            descripLosElem.innerHTML = "Zeugnis der allgemeinen Hochschulreife";
+                        losElem.appendChild(descripLosElem);
+
+                        // start 1. Subject: German
+                        var hasPart1Elem = elmoDoc.createElement("hasPart");
+                            var los1Elem = elmoDoc.createElement("learningOpportunitySpecification");
+
+                                var titleLos1Elem = elmoDoc.createElement("title");
+                                    titleLos1Elem.setAttribute("xml:lang", 'en');
+                                    titleLos1Elem.innerHTML = "German";
+                                los1Elem.appendChild(titleLos1Elem);
+
+                                var typeLos1Elem = elmoDoc.createElement("type");
+                                    typeLos1Elem.setAttribute("xml:lang", 'en');
+                                    typeLos1Elem.innerHTML = "Course";
+                                los1Elem.appendChild(typeLos1Elem); 
+
+                                var specifiesLos1Elem = elmoDoc.createElement("specifies");
+
+                                    var loi1Elem = elmoDoc.createElement("learningOpportunityInstance");
+
+                                            result1Elem = elmoDoc.createElement("resultLabel");
+                                                result1Elem.innerHTML = German;
+                                            loi1Elem.appendChild(result1Elem);
+
+                                    specifiesLos1Elem.appendChild(loi1Elem);
+
+                                los1Elem.appendChild(specifiesLos1Elem); 
+
+                            hasPart1Elem.appendChild(los1Elem);  
+
+                        losElem.appendChild(hasPart1Elem);
+                        // end 1. Subject
+
+                        // start 2. Subject: English
+                        var hasPart2Elem = elmoDoc.createElement("hasPart");
+                            var los2Elem = elmoDoc.createElement("learningOpportunitySpecification");
+
+                                var titleLos2Elem = elmoDoc.createElement("title");
+                                    titleLos2Elem.setAttribute("xml:lang", 'en');
+                                    titleLos2Elem.innerHTML = "English";
+                                los2Elem.appendChild(titleLos2Elem);
+
+                                var typeLos2Elem = elmoDoc.createElement("type");
+                                    typeLos2Elem.setAttribute("xml:lang", 'en');
+                                    typeLos2Elem.innerHTML = "Course";
+                                los2Elem.appendChild(typeLos2Elem); 
+
+                                var specifiesLos2Elem = elmoDoc.createElement("specifies");
+
+                                    var loi2Elem = elmoDoc.createElement("learningOpportunityInstance");
+
+                                            result2Elem = elmoDoc.createElement("resultLabel");
+                                                result2Elem.innerHTML = English;
+                                            loi2Elem.appendChild(result2Elem);
+
+                                    specifiesLos2Elem.appendChild(loi2Elem);
+
+                                los2Elem.appendChild(specifiesLos2Elem); 
+
+                            hasPart2Elem.appendChild(los2Elem);  
+
+                        losElem.appendChild(hasPart2Elem);
+                        // end 2. Subject
+
+                        // start 3. Subject: MAths
+                        var hasPart3Elem = elmoDoc.createElement("hasPart");
+                            var los3Elem = elmoDoc.createElement("learningOpportunitySpecification");
+
+                                var titleLos3Elem = elmoDoc.createElement("title");
+                                    titleLos3Elem.setAttribute("xml:lang", 'en');
+                                    titleLos3Elem.innerHTML = "Mathematics";
+                                los3Elem.appendChild(titleLos3Elem);
+
+                                var typeLos3Elem = elmoDoc.createElement("type");
+                                    typeLos3Elem.setAttribute("xml:lang", 'en');
+                                    typeLos3Elem.innerHTML = "Course";
+                                los3Elem.appendChild(typeLos3Elem); 
+
+                                var specifiesLos3Elem = elmoDoc.createElement("specifies");
+
+                                    var loi3Elem = elmoDoc.createElement("learningOpportunityInstance");
+
+                                            result3Elem = elmoDoc.createElement("resultLabel");
+                                                result3Elem.innerHTML = Maths;
+                                            loi3Elem.appendChild(result3Elem);
+
+                                    specifiesLos3Elem.appendChild(loi3Elem);
+
+                                los3Elem.appendChild(specifiesLos3Elem); 
+
+                            hasPart3Elem.appendChild(los3Elem);  
+
+                        losElem.appendChild(hasPart3Elem);
+                        // end 3. Subject
+
+                    reportElem.appendChild(losElem);   
+
+                    var dateElem = elmoDoc.createElement("issueDate");
+                        dateElem.innerHTML = today;
+                    reportElem.appendChild(dateElem);   
+
+                elmoElem.appendChild(reportElem);
+
+                var attachElem = elmoDoc.createElement("attachment");
+                elmoElem.appendChild(attachElem);
+
+                var sigElem = elmoDoc.createElement("signature");
+                elmoElem.appendChild(sigElem);
+
+                console.log('elmoDoc: ', elmoDoc);
+
+                var serializer = new XMLSerializer();
+                var xmlString = serializer.serializeToString(elmoDoc);
+   
+                var xmlBlob = new Blob([xmlString], {type: "text/xml;charset=utf-8"});
+                saveAs(xmlBlob, filename + '.xml');
+
+            });
+
+            
+            
+
+        }
+    );
+
+
+// functions for verify Certificate /////////////////////////////////////////
+    $("#verifyButton").click(
+        function() {
+            myCerts.verifyHash(temphash2, (err, veriRes) => {
+                $("#loader").hide();
+                console.log ("verifyed by: ", veriRes[0]);
+                console.log ("index: ",       veriRes[1].c[0]);
+                console.log ("date: ",        veriRes[2].c[0]); 
+
+                var veriAddr = veriRes[0]
+                var veriIndex = veriRes[1].c[0];
+                var veriDate  = veriRes[2].c[0];
+                var dateTime = new Date(veriDate*1000); 
+
+                if (veriDate == "0") {
+                    $("#verified").html('<font color="red">Your certificate is unknown!'); 
+                    $("#veri1").html('');
+                    $("#veri2").html('');
+                } else {
+                    console.log('your hash is valid');
+                    $("#verified").html('valid and set by : ' );    
+                    $("#veri1").html( veriAddr + '<br>'  ); 
+                    $("#veri2").html(' at :' + dateTime.toLocaleDateString() + ' ' + dateTime.toLocaleTimeString()+ '<br>'); 
+                    $("#hook").show();  
+                }
+
+                if (err) 
+                   $("#verified").html('Your certificate hash is invalid!'); 
+            });
+        }
+    );
+
+    function handleFileSelect2(){               
+        if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+        alert('The File APIs are not fully supported in this browser.');
+        return;
+        }   
+
+        input = document.getElementById('fileinput2');
+        if (!input) {
+            alert("Um, couldn't find the fileinput element.");
+        }
+        else if (!input.files) {
+            alert("This browser doesn't seem to support the `files` property of file inputs.");
+        }
+        else if (!input.files[0]) {
+            alert("Please select a file before clicking 'Load'");               
+        }
+        else if (input.files[1]) {
+            alert("Please select a single file only");    // multiple files to be implemented later           
+        }
+        else {
+            file = input.files[0];
+            fr = new FileReader();
+            fr.readAsText(file);
+            fr.onload = function(event){
+                receivedText2(keccak256(fr.result));
+            };
+        }
+    }
+
+    function receivedText2(value) {
+        $("#hook").hide();
+        $("#verified").html('');
+        $("#editor2").html('');
+        $("#veri1").html('');
+        $("#veri2").html('');
+        $("#veri3").html('');        
+        document.getElementById('editor2').appendChild(document.createTextNode(file.name));
+        document.getElementById('editor2').appendChild(document.createTextNode(" hash:  0x"));
+        document.getElementById('editor2').appendChild(document.createTextNode(value));
+        temphash2=  '0x' + value;
+        console.log ("calculated verificationhash: ",temphash2);
+               
+    }   
+
+
+// functions for Certificate List /////////////////////////////////////////
+    function renderCertListRow(index, certListEntry) {
+
+        var dateTime = new Date(certListEntry[1]*1000);  
+	    return  '<tr>'
+            +'<td class="text-right">' + index + '</td>'
+            +'<td>' + (dateTime.toLocaleDateString() + ' ' + dateTime.toLocaleTimeString()) 
+            +'<td>' + (certListEntry[0]) 
+            +'</tr>';
+        }
+        
+    function renderCertList(index, certListEntry) {
+            $('#certList').append(renderCertListRow(index, certListEntry));   	
+        }
+        
+    function renderCertListRec(index) {
+        var myAccount = web3.eth.defaultAccount;  
+        myCerts.displayCert(myAccount, index,(err, certListEntry) => {
+ 
+            if (certListEntry [1] != 0) {
+                renderCertList(index, certListEntry);
+                renderCertListRec(index + 1);
+            }
+        });
+    }
+     
+    function displayCertList()  {  
+        renderCertListRec(0);
+    }// End of function certificate list
+     
+// functions for Register School /////////////////////////////////////////
+    $("#registerButton").click(
+        function() {
+            myCerts.registerIssuer($("#schoolName").val(), $("#schoolCity").val(),$("#schoolStreet").val(),$("#schoolType").val(),(err, res) => {
+                $("#registered").html('Your school '+ $("#schoolName").val() + ' is beeing registered and will be occur in below list in a few minutes'); 
+                // $("#regloader").show();      	
+                if (err) 
+                    $("#regloader").hide();
+            });
+        }
+    );
+
+
+// functions for list schools /////////////////////////////////////////
+    function renderSchoolListRow(index, schoolListEntry) {
+        return  '<tr>'
+            +'<td class="text-right">' + index + '</td>'
+            +'<td>' + web3.toAscii(schoolListEntry[0]) 
+            +'<td>' + web3.toAscii(schoolListEntry[1])
+            +'<td>' + web3.toAscii(schoolListEntry[2]) 
+            +'<td>' + (schoolListEntry[3]) 
+            +'<td>' + (schoolListEntry[4])    
+            +'<td>' + (schoolListEntry[5]) 
+            +'</tr>';
+    }
+
+    function renderSchoolList(index, schoolListEntry) {
+        $('#schoolListBody').append(renderSchoolListRow(index, schoolListEntry));   	
+    }
+
+    function renderSchoolListRec(index) {
+        myCerts.displayIssuerByIndex(index,(err, schoolListEntry) => {
+            if (schoolListEntry [3] != 0) {
+                renderSchoolList(index, schoolListEntry);
+                renderSchoolListRec(index + 1);
+            }
+        });
+    }
+
+    function displaySchoolList()  {  
+        renderSchoolListRec(0);
+    }
+// End of functions for list schools
+
+
+// functions for list authorization of a school /////////////////////////////////////////
+function renderAuthListRow(index, authListEntry) {
+        return  '<tr>'
+            +'<td class="text-right">' + index + '</td>'
+            +'<td>' + web3.toAscii(authListEntry[0]) 
+            +'<td>' + web3.toAscii(authListEntry[1]) 
+            +'<td>' + web3.toAscii(authListEntry[2]) 
+            +'<td>' + (authListEntry[3]) // type
+            +'<td>' + (authAddr)         // address  
+            +'<td>' + (authListEntry[4]) // authorized by
+            +'</tr>';
+    }
+
+    function renderAuthListRec(index) {
+        if (index == 0) {
+        authAddr =  web3.eth.defaultAccount;  
+        }
+        
+        myCerts.displayIssuerbyAddress(authAddr, (err, authListEntry) => {
+                $('#authListBody').append(renderAuthListRow(index, authListEntry));
+                
+                authAddr = authListEntry[4];
+                index = index +1;
+              
+                //Loop until provider is reached
+                if (authListEntry[3] != 1) {
+                    renderAuthListRec (index); 
+                }
+
+
+        });
+    }
+
+    function displayAuthList()  { 
+         
+        renderAuthListRec(0);
+    }
+// End of functions for list authorizations of a school
+
+
+// functions for Authorize a School  /////////////////////////////////////////
+    $("#authoSchoolButton").click(
+        function() {
+            myCerts.authorizeIssuer($("#authoAddr").val(), (err, authSchoolRes) => {
+                $("#loader").hide();
+                $("#authorizedSchool").html('The school with Address  '
+                    + $("#authoAddr").val() 
+                    + ' is authorized and can sign certificates!'
+                    ); 
+                if (err) 
+                   $("#authorizedSchool").html('The School'+ $("#authoAddr").val() + ' cannot be authorized!'); 
+            });
+        }
+    );
+
+
+
+// stop all loaders             /////////////////////////////////////////  
+$("#publoader").hide(); 
+$("#pdfLoader").hide(); 
+$("#regloader").hide(); 
+$("#hook").hide();
+
+// Main loop fo populate lists  /////////////////////////////////////////   
+showLoggedInAs();
+displayCertList();
+//registerMySchool();
+displaySchoolList();
+displayAuthList();
+   
+</script>
+
+
+</body>
+</html>
